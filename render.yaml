@@ -1,0 +1,50 @@
+services:
+  - type: web
+    name: catenar-web
+    runtime: node
+    plan: standard
+    buildCommand: npm install && npm run build
+    startCommand: npm run dev:server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+      - key: DATABASE_URL
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_ENVIRONMENT
+        value: SANDBOX
+      - key: CHANNEL3_API_KEY
+        value: PAYPAL-HACKATHON-2026
+      - key: CHANNEL3_API_URL
+        value: https://api.channel3.ai/v1
+      - key: RENDER_EXTERNAL_URL
+        value: https://catenar-ai.onrender.com
+      - key: RENDER_SERVICE_ID
+        value: srv-catenar-web
+
+  - type: worker
+    name: catenar-workflow-worker
+    runtime: node
+    plan: standard
+    buildCommand: npm install && npm run build
+    startCommand: npm run verify:sandbox --workspace=server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        sync: false
+      - key: PAYPAL_CLIENT_ID
+        sync: false
+      - key: PAYPAL_CLIENT_SECRET
+        sync: false
+      - key: PAYPAL_ENVIRONMENT
+        value: SANDBOX
+      - key: CHANNEL3_API_KEY
+        value: PAYPAL-HACKATHON-2026
+      - key: CHANNEL3_API_URL
+        value: https://api.channel3.ai/v1
